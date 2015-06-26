@@ -26,6 +26,13 @@ impl VM {
 		let instr = self.program[self.ip];
 		instr
 	}
+
+	fn eval(&self, instr: InstructionSet) {
+		match instr {
+			InstructionSet::HLT => break,
+			_ => {},
+		}
+	}
 }
 
 fn main() {
@@ -39,11 +46,7 @@ fn main() {
 
 	let mut vm = VM::new(program);
 	loop {
-		let x = vm.fetch();
-		match x {
-			InstructionSet::HLT => break,
-			_ => {},
-		}
+		vm.eval(vm.fetch())
 		vm.ip += 1;
 	}
 }
