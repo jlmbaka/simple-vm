@@ -24,7 +24,6 @@ impl VM {
 
 	fn fetch(&mut self) -> InstructionSet {
 		let instr = self.program[self.ip];
-		self.ip += 1;
 		instr
 	}
 }
@@ -40,5 +39,6 @@ fn main() {
 
 	let mut vm = VM::new(program);
 	let x = vm.fetch(); // PSH
+	vm.ip += 1;
 	let y = vm.fetch(); // VAL(5)
 }
