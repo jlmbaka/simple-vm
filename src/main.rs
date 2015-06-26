@@ -12,6 +12,9 @@ enum InstructionSet {
 struct VM {
 	ip: usize,
 	program: Vec<InstructionSet>,
+	running: bool,
+	sp: isize,
+	stack: [InstructionSet; 256],
 }
 
 impl VM {
@@ -19,6 +22,9 @@ impl VM {
 		VM {
 			ip : 0,
 			program: prog,
+			running: true,			
+			sp: -1,
+			stack:[InstructionSet::VAL(0); 256],	
 		}
 	}
 
@@ -27,9 +33,15 @@ impl VM {
 		instr
 	}
 
-	fn eval(&self, instr: InstructionSet) {
+	fn eval(&mut self, instr: InstructionSet) {
+		use InstructionSet::*;
 		match instr {
-			InstructionSet::HLT => break,
+			HLT => self.running = false,
+			PSH => {
+				self.sp += 1;
+				self.ip += 1; // move to operand location
+				self.stack[self.sp as usize] = self.program[self.ip];
+			},
 			_ => {},
 		}
 	}
@@ -46,7 +58,10 @@ fn main() {
 
 	let mut vm = VM::new(program);
 	loop {
-		vm.eval(vm.fetch())
+		vm.eval(vm.fetch());
 		vm.ip += 1;
+		if !vm.running {
+			break;
+		}
 	}
 }
