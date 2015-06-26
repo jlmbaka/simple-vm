@@ -38,7 +38,12 @@ fn main() {
 	];
 
 	let mut vm = VM::new(program);
-	let x = vm.fetch(); // PSH
-	vm.ip += 1;
-	let y = vm.fetch(); // VAL(5)
+	loop {
+		let x = vm.fetch();
+		match x {
+			InstructionSet::HLT => break,
+			_ => {},
+		}
+		vm.ip += 1;
+	}
 }
