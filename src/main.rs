@@ -1,6 +1,4 @@
 
-use InstructionSet;
-
 #[derive(Copy, Clone)]
 enum InstructionSet {
 	PSH,
@@ -44,7 +42,9 @@ impl VM {
 				self.ip += 1; // move to operand location
 				self.stack[self.sp as usize] = self.program[self.ip];
 				//[DEBUG]
-				println!("PSH {0}", match self.program[self.ip] {InstructionSet::VAL{value} => value, _=> 0,});
+				println!("PSH {0}", match self.program[self.ip] {
+					InstructionSet::VAL{value} => value, 
+					_ => 0,});
 			},
 			POP => {
 				let val_popped = match self.stack[self.sp as usize] {
@@ -76,9 +76,8 @@ impl VM {
 				let result = b + a;
 				self.sp += 1; // increment stack pointer **before**
 				self.stack[self.sp as usize] = InstructionSet::VAL{value: result}; // set the value to the top of the stack
-
 			},
-			_ => println!("Instruction does not exist in instruction set."),
+			_ => println!("[ERROR]: Unkown instruction"),
 		}
 	}
 }
