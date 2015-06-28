@@ -6,7 +6,7 @@ enum InstructionSet {
 	POP,
 	SET,
 	HLT,
-	VAL{value: i32},
+	VAL{value: isize},
 }
 
 struct VM {
