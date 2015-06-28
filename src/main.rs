@@ -43,12 +43,12 @@ impl VM {
 				self.stack[self.sp as usize] = self.program[self.ip];
 				//[DEBUG]
 				println!("PSH {0}", match self.program[self.ip] {
-					InstructionSet::VAL{value} => value, 
+					VAL{value} => value, 
 					_ => 0,});
 			},
 			POP => {
 				let val_popped = match self.stack[self.sp as usize] {
-					InstructionSet::VAL{value} => value,
+					VAL{value} => value,
 					_ => 0,
 				};
 				self.sp -= 1;
@@ -57,14 +57,14 @@ impl VM {
 			ADD => {
 				// first we pop the stack and store it as a
 				let a = match self.stack[self.sp as usize] {
-					InstructionSet::VAL{value} => value,
+					VAL{value} => value,
 					_ => 0, 
 				};
 				self.sp -= 1;
 
 				// we then pop the top of the stack and store it as b
 				let b = match self.stack[self.sp as usize] {
-					InstructionSet::VAL{value} => value,
+					VAL{value} => value,
 					_ => 0,
 				};
 				self.sp -= 1;
@@ -75,7 +75,7 @@ impl VM {
 				// we then add the result and push it to the stack
 				let result = b + a;
 				self.sp += 1; // increment stack pointer **before**
-				self.stack[self.sp as usize] = InstructionSet::VAL{value: result}; // set the value to the top of the stack
+				self.stack[self.sp as usize] = VAL{value: result}; // set the value to the top of the stack
 			},
 			_ => println!("[ERROR]: Unkown instruction"),
 		}
@@ -83,12 +83,13 @@ impl VM {
 }
 
 fn main() {
+	use InstructionSet::*;
 	let program = vec![
-		InstructionSet::PSH, InstructionSet::VAL{value: 5},
-		InstructionSet::PSH, InstructionSet::VAL{value: 6},
-		InstructionSet::ADD,
-		InstructionSet::POP,
-		InstructionSet::HLT,
+		PSH, VAL{value: 5},
+		PSH, VAL{value: 6},
+		ADD,
+		POP,
+		HLT,
 	];
 
 	let mut vm = VM::new(program);
