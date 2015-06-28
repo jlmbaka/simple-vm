@@ -1,4 +1,6 @@
 
+use InstructionSet;
+
 #[derive(Copy, Clone)]
 enum InstructionSet {
 	PSH,
