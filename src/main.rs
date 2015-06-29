@@ -1,3 +1,5 @@
+//Allow Instruction set to be referred to without namespacing
+use InstructionSet::{PSH, ADD, POP, SET, HLT, VAL};
 
 #[derive(Copy, Clone)]
 enum InstructionSet {
@@ -24,7 +26,7 @@ impl VM {
 			program: prog,
 			running: true,			
 			sp: -1,
-			stack:[InstructionSet::VAL{value:0}; 256],	
+			stack:[VAL{value:0}; 256],	
 		}
 	}
 
@@ -34,7 +36,6 @@ impl VM {
 	}
 
 	fn eval(&mut self, instr: InstructionSet) {
-		use InstructionSet::*;
 		match instr {
 			HLT => self.running = false,
 			PSH => {
@@ -83,7 +84,6 @@ impl VM {
 }
 
 fn main() {
-	use InstructionSet::*;
 	let program = vec![
 		PSH, VAL{value: 5},
 		PSH, VAL{value: 6},
