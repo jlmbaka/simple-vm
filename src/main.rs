@@ -78,7 +78,7 @@ impl VM {
 				self.sp += 1; // increment stack pointer **before**
 				self.stack[self.sp as usize] = VAL{value: result}; // set the value to the top of the stack
 			},
-			_ => println!("[ERROR]: Unkown instruction"),
+			_ => println!("[ERROR]: unkown instruction"),
 		}
 	}
 }
