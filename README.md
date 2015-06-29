@@ -1,2 +1,2 @@
 # simple-vm
-Simple virtual machine in C
+Simple virtual machine in Rust
